@@ -1,36 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: figo-007
- * Date: 2016/12/10
- * Time: 16:04
- */
-namespace ApigilityCommunicate\DoctrineEntity;
+namespace ApigilityCommunicate\V1\Rest\Notification;
 
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\OneToOne;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\JoinTable;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\ManyToMany;
-use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\Common\Collections\ArrayCollection;
+use ApigilityCatworkFoundation\Base\ApigilityObjectStorageAwareEntity;
 use ApigilityUser\DoctrineEntity\User;
+use ApigilityUser\V1\Rest\User\UserEntity;
 
-/**
- * Class Notification
- * @package ApigilityCommunicate\DoctrineEntity
- * @Entity @Table(name="apigilitycommunication_notification")
- */
-class Notification
+class NotificationEntity extends ApigilityObjectStorageAwareEntity
 {
-    const STATUS_UNREAD = 1;  // 已读
-    const STATUS_READ = 2;    // 未读
-
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue
@@ -104,12 +80,10 @@ class Notification
         return $this;
     }
 
-    /**
-     * @return User
-     */
     public function getUser()
     {
-        return $this->user;
+        if ($this->user instanceof User) return $this->hydrator->extract(new UserEntity($this->user, $this->serviceManager));
+        else return $this->user;
     }
 
     public function setTitle($title)
@@ -164,7 +138,8 @@ class Notification
 
     public function getCreateTime()
     {
-        return $this->create_time;
+        if ($this->create_time instanceof \DateTime) return $this->create_time->getTimestamp();
+        else return $this->create_time;
     }
 
     public function setStatus($status)
