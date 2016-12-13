@@ -11,7 +11,7 @@ return [
             'apigility-communicate.rest.verification' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/verification[/:verification_id]',
+                    'route' => '/communicate/verification[/:verification_id]',
                     'defaults' => [
                         'controller' => 'ApigilityCommunicate\\V1\\Rest\\Verification\\Controller',
                     ],
