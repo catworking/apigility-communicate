@@ -31,6 +31,9 @@ class Notification
     const STATUS_UNREAD = 1;  // 已读
     const STATUS_READ = 2;    // 未读
 
+    const PUSH_STATUS_WAIT = 1;  // 等待推送
+    const PUSH_STATUS_DONE = 2;  // 已推送
+
     /**
      * @Id @Column(type="integer")
      * @GeneratedValue
@@ -81,11 +84,18 @@ class Notification
     protected $create_time;
 
     /**
-     * 状态
+     * 阅读状态
      *
      * @Column(type="smallint", nullable=false)
      */
     protected $status;
+
+    /**
+     * 推送状态
+     *
+     * @Column(type="smallint", nullable=false)
+     */
+    protected $push_status;
 
     public function setId($id)
     {
@@ -176,5 +186,16 @@ class Notification
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function setPushStatus($push_status)
+    {
+        $this->push_status = $push_status;
+        return $this;
+    }
+
+    public function getPushStatus()
+    {
+        return $this->push_status;
     }
 }

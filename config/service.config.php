@@ -9,7 +9,8 @@ return [
     'service_manager' => array(
         'factories' => array(
             'ApigilityCommunicate\Service\SmsService' => 'ApigilityCommunicate\Service\SmsServiceFactory',
-            'ApigilityCommunicate\Service\NotificationService' => 'ApigilityCommunicate\Service\NotificationServiceFactory'
+            'ApigilityCommunicate\Service\NotificationService' => 'ApigilityCommunicate\Service\NotificationServiceFactory',
+            'ApigilityCommunicate\Service\PhoneNotifyService' => 'ApigilityCommunicate\Service\PhoneNotifyServiceFactory'
         ),
     )
 ];

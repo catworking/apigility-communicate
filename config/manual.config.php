@@ -27,5 +27,15 @@ return [
                 ],*/
             ],
         ],
+        'phone-notify' => [
+            'adapter' => [
+                'type' =>'jpush',
+                'params' => [
+                    'app_key' => '',
+                    'secret' => '',
+                    'log_file' => ''
+                ]
+            ]
+        ]
     ],
 ];

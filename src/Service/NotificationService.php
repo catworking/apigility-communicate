@@ -27,26 +27,34 @@ class NotificationService
      */
     protected $userService;
 
+    /**
+     * @var \ApigilityCommunicate\Service\PhoneNotifyService
+     */
+    protected $phoneNotifyService;
+
     public function __construct(ServiceManager $services)
     {
         $this->em = $services->get('Doctrine\ORM\EntityManager');
         $this->userService = $services->get('ApigilityUser\Service\UserService');
+        $this->phoneNotifyService = $services->get('ApigilityCommunicate\Service\PhoneNotifyService');
     }
 
     /**
      * 创建一个通知
      * @param $data
+     * @param bool $phone_notify
      * @return Notification
      * @throws \Exception
      */
-    public function createNotification($data)
+    public function createNotification($data, $phone_notify = true)
     {
         if (!isset($data->user_id)) throw new \Exception('没有指定接受通知的目标用户', 500);
         else {
             $notification = new Notification();
             $notification->setUser($this->userService->getUser($data->user_id));
             $notification->setCreateTime(new \DateTime());
-            $notification->setStatus(Notification::STATUS_UNREAD);
+            $notification->setStatus(Notification::STATUS_UNREAD)
+                ->setPushStatus(Notification::PUSH_STATUS_WAIT);
 
             // 保存输入的数据
             if (isset($data->title)) $notification->setTitle($data->title);
@@ -56,6 +64,15 @@ class NotificationService
 
             $this->em->persist($notification);
             $this->em->flush();
+
+            // 发送手机通知
+            if ($phone_notify) {
+                $em = $this->em;
+                $this->phoneNotifyService->sendNotification($notification, function () use ($notification, $em){
+                    $notification->setPushStatus(Notification::PUSH_STATUS_DONE);
+                    $em->flush();
+                });
+            }
 
             return $notification;
         }
