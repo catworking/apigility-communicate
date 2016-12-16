@@ -66,6 +66,7 @@ return [
             ],
             'collection_query_whitelist' => [
                 0 => 'user_id',
+                1 => 'type',
             ],
             'page_size' => 25,
             'page_size_param' => null,

@@ -133,6 +133,11 @@ class NotificationService
         $qb->select('n')->from('ApigilityCommunicate\DoctrineEntity\Notification', 'n');
 
         $where = '';
+        if (isset($params->type)) {
+            if (!empty($where)) $where .= ' AND ';
+            $where .= 'n.type = :type';
+        }
+
         if (isset($params->user_id)) {
             $qb->innerJoin('n.user', 'user');
             if (!empty($where)) $where .= ' AND ';
@@ -141,6 +146,7 @@ class NotificationService
 
         if (!empty($where)) {
             $qb->where($where);
+            if (isset($params->type)) $qb->setParameter('type', $params->type);
             if (isset($params->user_id)) $qb->setParameter('user_id', $params->user_id);
         }
 
