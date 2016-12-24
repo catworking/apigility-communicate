@@ -49,7 +49,7 @@ return [
             'page_size_param' => null,
             'entity_class' => \ApigilityCommunicate\V1\Rest\Verification\VerificationEntity::class,
             'collection_class' => \ApigilityCommunicate\V1\Rest\Verification\VerificationCollection::class,
-            'service_name' => 'verification',
+            'service_name' => 'Verification',
         ],
         'ApigilityCommunicate\\V1\\Rest\\Notification\\Controller' => [
             'listener' => \ApigilityCommunicate\V1\Rest\Notification\NotificationResource::class,
