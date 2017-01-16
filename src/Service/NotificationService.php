@@ -72,6 +72,9 @@ class NotificationService
                     $notification->setPushStatus(Notification::PUSH_STATUS_DONE);
                     $em->flush();
                 });
+            } else {
+                $notification->setPushStatus(Notification::PUSH_STATUS_NONE);
+                $this->em->flush();
             }
 
             return $notification;
