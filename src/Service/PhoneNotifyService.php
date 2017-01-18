@@ -38,8 +38,10 @@ class PhoneNotifyService
     {
         $status = false;
 
-        if ($this->adapter->pushAlertByAlias(
-            $notification->getTitle().'：'.$notification->getContent(),
+        if ($this->adapter->pushNotificationAndMessageByAlias(
+            $notification->getTitle(),
+            $notification->getContent(),
+            $this->classMethodsHydrator->extract($notification),
             $notification->getUser()->getId())) {
 
             $callback();
