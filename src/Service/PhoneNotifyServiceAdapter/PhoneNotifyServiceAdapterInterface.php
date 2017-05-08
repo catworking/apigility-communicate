@@ -17,4 +17,15 @@ interface PhoneNotifyServiceAdapterInterface
      * @return boolean
      */
     public function pushAlertByAlias($content, $alias = []);
+
+    /**
+     * 把通知和消息发给所有设备
+     *
+     * @param $title
+     * @param $content
+     * @param $extras
+     * @param array $alias
+     * @return mixed
+     */
+    public function pushNotificationAndMessageByAlias($title, $content, $extras, $alias = []);
 }

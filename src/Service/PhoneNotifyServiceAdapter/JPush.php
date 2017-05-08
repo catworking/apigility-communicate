@@ -50,4 +50,32 @@ class JPush implements PhoneNotifyServiceAdapterInterface
             return false;
         }
     }
+
+    public function pushNotificationAndMessageByAlias($title, $content, $extras, $alias = [])
+    {
+        try {
+            $response = $this->client->push()
+                ->setPlatform('all')
+                ->addAlias($alias)
+                ->iosNotification($title.'：'.$content, array(
+                    'extras' => $extras,
+                ))
+                ->androidNotification($content, array(
+                    'title' => $title,
+                    'extras' => $extras,
+                ))
+                ->message($content, array(
+                    'title' => $title,
+                    'extras' => $extras,
+                ))
+                ->send();
+
+            if ($response['http_code'] == 200) return true;
+            else return false;
+
+        } catch (\Exception $e) {
+            //throw $e;
+            return false;
+        }
+    }
 }

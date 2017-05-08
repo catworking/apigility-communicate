@@ -9,6 +9,7 @@ namespace ApigilityCommunicate\Service;
 
 use ApigilityCommunicate\DoctrineEntity\Notification;
 use ApigilityCommunicate\Service\PhoneNotifyServiceAdapter\PhoneNotifyServiceAdapterInterface;
+use ApigilityCommunicate\V1\Rest\Notification\NotificationEntity;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Hydrator\ClassMethods as ClassMethodsHydrator;
 
@@ -21,10 +22,16 @@ class PhoneNotifyService
      */
     protected $adapter;
 
+    /**
+     * @var ServiceManager
+     */
+    protected $serviceManager;
+
     public function __construct(ServiceManager $services, PhoneNotifyServiceAdapterInterface $adapter)
     {
         $this->classMethodsHydrator = new ClassMethodsHydrator();
         $this->adapter = $adapter;
+        $this->serviceManager = $services;
     }
 
     /**
@@ -38,8 +45,10 @@ class PhoneNotifyService
     {
         $status = false;
 
-        if ($this->adapter->pushAlertByAlias(
-            $notification->getTitle().'：'.$notification->getContent(),
+        if ($this->adapter->pushNotificationAndMessageByAlias(
+            $notification->getTitle(),
+            $notification->getContent(),
+            $this->classMethodsHydrator->extract(new NotificationEntity($notification, $this->serviceManager)),
             $notification->getUser()->getId())) {
 
             $callback();

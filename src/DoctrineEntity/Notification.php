@@ -31,8 +31,9 @@ class Notification
     const STATUS_UNREAD = 1;  // 已读
     const STATUS_READ = 2;    // 未读
 
-    const PUSH_STATUS_WAIT = 1;  // 等待推送
-    const PUSH_STATUS_DONE = 2;  // 已推送
+    const PUSH_STATUS_NONE = 1;  // 不推送
+    const PUSH_STATUS_WAIT = 2;  // 等待推送
+    const PUSH_STATUS_DONE = 3;  // 已推送
 
     /**
      * @Id @Column(type="integer")
